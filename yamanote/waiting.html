@@ -14,8 +14,6 @@
             setInterval(judgeStart, 2000);
         });
 
-
-
         async function doInsert() {
             var me = await osql.getMe();
             console.log(me);
@@ -29,20 +27,28 @@
             // document.getElementById('result').innerHTML = 'OK';
         }
 
-        function buttonPressed() {
-            start();
+        async function startGame() {
+            var sql = `update Game set turn = 1 where id = 1;`;
+            var objects = await osql.connect(sql);
+            location.href = 'game.html';
         }
 
-        async function start() {
-            var sql = `insert into Game (turn) values(1);`;
+        async function resetGame() {
+            var sql = `update Game set turn = 0 where id = 1;`;
+            var objects = await osql.connect(sql);
+            location.href = 'game.html';
+        }
+
+        async function createGame() {
+            var sql = `insert into Game (turn) values(0);`;
             var objects = await osql.connect(sql);
         }
 
         async function judgeStart() {
-            var sql = `select turn from Game;`;
-            var getTurn = await osql.connect(sql);
-            console.log(getTurn);
-            if (getTurn == 1) {
+            var sql = `select turn from Game where id = 1`;
+            var objects = await osql.connect(sql);
+            console.log(objects);
+            if (Number(objects[0].turn) == 1) {
                 location.href = 'game.html';
             }
         }
@@ -57,7 +63,11 @@
 <body>
     <div class="contents">
         <p>グループメンバーの参加を待っています</p>
-        <button onclick="buttonPressed()">開始</button>
+        <button onclick="createGame()">create game</button>
+        <button onclick="resetGame()">reset game</button>
+        <button onclick="startGame()">開始</button>
+        <br>
+        <button onclick="buttonJoin1()" value="1" id="group1">1</button>
         <p class="result"></p>
     </div>
 
