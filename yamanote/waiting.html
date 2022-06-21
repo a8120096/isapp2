@@ -4,18 +4,33 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <script type="text/javascript" src="../jquery.min.js"></script>
-    <script type="text/javascript" src="../settings.js"></script>
-    <script type="text/javascript" src="../osql.js"></script>
+    <script type="text/javascript" src="../lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../lib/osql.js"></script>
 
     <script>
+        osql.requireLogin();
         $().ready(function () {
-            doSelect();
-            setInterval(doSelect, 2000);
+            test();
         });
+
+        async function test() {
+            var me = await osql.getMe();
+            console.log(me);
+        }
 
         function buttonPressed() {
             doInsert();
+        }
+        async function doInsert() {
+            // var userid = document.getElementById('tf1').value;
+            // var password = document.getElementById('tf2').value;
+            // var username = document.getElementById('tf3').value;
+
+            var sql = `select * Player (id, name);`;
+            var objects = await osql.connect(sql);
+            console.log(objects);
+
+            document.getElementById('result').innerHTML = 'OK';
         }
     </script>
 
@@ -26,6 +41,7 @@
     <div class="contents">
         <p>グループメンバーの参加を待っています</p>
         <button onclick="buttonPressed()">開始</button>
+        <p class="result"></p>
     </div>
 
 </body>
