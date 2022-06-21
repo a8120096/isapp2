@@ -10,24 +10,24 @@
     <script>
         osql.requireLogin();
         $().ready(function () {
-            test();
+            doInsert();
         });
 
-        async function test() {
-            var me = await osql.getMe();
-            console.log(me);
-        }
-
         function buttonPressed() {
-            doInsert();
+            // doInsert();
         }
 
         async function doInsert() {
-            var sql = `select * Player (id, name);`;
+            var me = await osql.getMe();
+            console.log(me);
+            var playerid = me.studentid;
+            var name = me.fname;
+
+            var sql = `insert ignore into Player (id, name) values("${playerid}", "${name}");`;
             var objects = await osql.connect(sql);
             console.log(objects);
 
-            document.getElementById('result').innerHTML = 'OK';
+            // document.getElementById('result').innerHTML = 'OK';
         }
 
     </script>
