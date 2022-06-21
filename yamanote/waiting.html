@@ -2,16 +2,30 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <script type="text/javascript" src="../jquery.min.js"></script>
+    <script type="text/javascript" src="../settings.js"></script>
+    <script type="text/javascript" src="../osql.js"></script>
+
+    <script>
+        $().ready(function () {
+            doSelect();
+            setInterval(doSelect, 2000);
+        });
+
+        function buttonPressed() {
+            doInsert();
+        }
+    </script>
+
     <title>Document</title>
 </head>
 
 <body>
     <div class="contents">
         <p>グループメンバーの参加を待っています</p>
-        <button>開始</button>
+        <button onclick="buttonPressed()">開始</button>
     </div>
 
 </body>

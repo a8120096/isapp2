@@ -1,15 +1,72 @@
 <!DOCTYPE html>
-<html lang="ja">
+
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <script type="text/javascript" src="../jquery.min.js"></script>
+    <script type="text/javascript" src="../settings.js"></script>
+    <script type="text/javascript" src="../osql.js"></script>
+
+    <script>
+        $().ready(function () {
+            doSelect();
+            setInterval(doSelect, 2000);
+        });
+
+        function button1Pressed() {
+            doInsert();
+        }
+
+        async function doInsert() {
+            var userid = osql.getParam('userid');
+            document.getElementById('tf1').value = userid;
+            var tweet = document.getElementById('tf2').value;
+            // sqlを変える
+            var sql = `insert into Tweets (name, tweet, time) values("${userid}", "${tweet}", now());`;
+            var objects = await osql.connect(sql);
+            document.getElementById('result').innerHTML = "tweetしました";
+            document.getElementById('tf2').value = "";
+        }
+
+        async function doSelect() {
+            var userid = osql.getParam('userid');
+            document.getElementById('tf1').value = userid;
+            var sql = 'select * from Tweets order by time desc limit 20';
+            // 検索
+            // var word = document.getElementById('word').value;
+            // var sql = `select * from Tweets where tweet like "%${word}%";`;
+
+            var objects = await osql.connect(sql);
+            console.log(objects);
+            var html = '';
+            html = html + '<table border="1">';
+            for (var i = 0; i < objects.length; i++) {
+                var object = objects[i];
+                html = html + '<tr>';
+                html = html + '<td>' + '<a href="userhome.html?toid=' + object.name + '&fromid=' + userid + '">' + object.name + '</a>' + '</td>';
+                html = html + '<td>' + object.tweet + '</td>';
+                html = html + '<td>' + object.time + '</td>';
+                html = html + '</tr>';
+            }
+            html = html + '</table>';
+            document.getElementById('tweetresult').innerHTML = html;
+        }
+    </script>
+
 </head>
 
 <body>
-
+    <h1>Tweets</h1>
+    <br>
+    名前:<input id="tf1" value="" type="textfield">
+    <br>
+    tweet:<input id="tf2" type="textfield">
+    <button onclick="button1Pressed()">tweet</button>
+    <hr>
+    <p id="result"></p>
+    <p id="tweetresult">xxxx</p>
 </body>
 
 </html>
