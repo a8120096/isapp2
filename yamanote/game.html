@@ -15,7 +15,7 @@
             setInterval(doSelect, 2000);
         });
 
-        function button1Pressed() {
+        function buttonPressed() {
             doInsert();
         }
 
@@ -58,12 +58,12 @@
 </head>
 
 <body>
-    <h1>Tweets</h1>
+    <h1>山手線ゲーム</h1>
     <br>
-    名前:<input id="tf1" value="" type="textfield">
+    ユーザ:<input id="tf1" value="" type="textfield">
     <br>
-    tweet:<input id="tf2" type="textfield">
-    <button onclick="button1Pressed()">tweet</button>
+    用語:<input id="tf2" type="textfield">
+    <button onclick="buttonPressed()">送信</button>
     <hr>
     <p id="result"></p>
     <p id="tweetresult">xxxx</p>
