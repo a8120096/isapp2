@@ -21,17 +21,15 @@
         function buttonPressed() {
             doInsert();
         }
-        async function doInsert() {
-            // var userid = document.getElementById('tf1').value;
-            // var password = document.getElementById('tf2').value;
-            // var username = document.getElementById('tf3').value;
 
+        async function doInsert() {
             var sql = `select * Player (id, name);`;
             var objects = await osql.connect(sql);
             console.log(objects);
 
             document.getElementById('result').innerHTML = 'OK';
         }
+
     </script>
 
     <title>Document</title>
