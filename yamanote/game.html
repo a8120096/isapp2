@@ -10,24 +10,49 @@
     <script src="yamanote.js"></script>
 
     <script>
+        osql.requireLogin();
         $().ready(function () {
-            doSelect();
-            setInterval(doSelect, 2000);
+            // await doSelect();
+            // setInterval(doSelect, 2000);
+            getProfile();
         });
 
-        function SubmitButtonPressed() {
+        async function getProfile() {
+            var me = await osql.getMe();
+            document.getElementById('user_name').innerHTML = me.fname;
+            console.log(me);
+        }
+
+        async function submit() {
             doInsert();
+            addTurn();
         }
 
         async function doInsert() {
-            var userid = osql.getParam('userid');
-            document.getElementById('tf1').value = userid;
-            var tweet = document.getElementById('tf2').value;
-            // sqlを変える
-            var sql = `insert into Tweets (name, tweet, time) values("${userid}", "${tweet}", now());`;
-            var objects = await osql.connect(sql);
-            document.getElementById('result').innerHTML = "tweetしました";
-            document.getElementById('tf2').value = "";
+            var me = await osql.getMe();
+            console.log(me);
+            var playerid = me.studentid;
+            var name = me.fname;
+            var content = document.getElementById('word').value;
+
+            var sql = `insert into Item (gameid, playerid, order, content) values("${gameid}", "${playerid}", 1, "${content}");`;
+
+            // // 以下、一応残してるやつ
+            // var userid = osql.getParam('userid');
+            // document.getElementById('tf1').value = userid;
+            // var tweet = document.getElementById('tf2').value;
+            // // sqlを変える
+            // var sql = `insert into Tweets (name, tweet, time) values("${userid}", "${tweet}", now());`;
+            // var objects = await osql.connect(sql);
+            // document.getElementById('result').innerHTML = "tweetしました";
+            // document.getElementById('tf2').value = "";
+        }
+
+        async function addTurn() {
+            // var sql = `update Game set turn + 1 where id = 1;`;
+            // var objects = await osql.connect(sql);
+            // location.href = 'game.html';
+            // console.log(sql);
         }
 
         async function doSelect() {
@@ -61,10 +86,10 @@
 <body>
     <h1>山手線ゲーム</h1>
     <br>
-    ユーザ:<input id="tf1" value="" type="textfield">
+    ユーザ:<span id="user_name" type="textfield"></span>
     <br>
-    用語:<input id="tf2" type="textfield">
-    <button onclick="SubmitButtonPressed()">送信</button>
+    用語:<input id="word" type="textfield">
+    <button onclick="submit()">送信</button>
     <br>
     <button onclick="resetGame()">リセット</button>
     <hr>
