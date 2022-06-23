@@ -14,7 +14,7 @@
             setInterval(doSelect, 2000);
         });
 
-        function buttonPressed() {
+        function SubmitButtonPressed() {
             doInsert();
         }
 
@@ -52,6 +52,11 @@
             html = html + '</table>';
             document.getElementById('tweetresult').innerHTML = html;
         }
+
+        function RessetButtonPressed() {
+
+        }
+
     </script>
 
 </head>
@@ -62,7 +67,9 @@
     ユーザ:<input id="tf1" value="" type="textfield">
     <br>
     用語:<input id="tf2" type="textfield">
-    <button onclick="buttonPressed()">送信</button>
+    <button onclick="SubmitButtonPressed()()">送信</button>
+    <br>
+    <button onclick="RessetButtonPressed()">リセット</button>
     <hr>
     <p id="result"></p>
     <p id="tweetresult">xxxx</p>

@@ -11,7 +11,7 @@
         osql.requireLogin();
         $().ready(function () {
             doInsert();
-            setInterval(judgeStart, 2000);
+            // setInterval(judgeStart, 2000);
         });
 
         async function doInsert() {
@@ -65,7 +65,8 @@
         <p>グループメンバーの参加を待っています</p>
         <button onclick="createGame()">create game</button>
         <button onclick="resetGame()">reset game</button>
-        <button onclick="startGame()">開始</button>
+        <button onclick="startGame()">start game</button>
+        <button onclick="judgeStart()">judge start</button>
         <br>
         <button onclick="buttonJoin1()" value="1" id="group1">1</button>
         <p class="result"></p>
