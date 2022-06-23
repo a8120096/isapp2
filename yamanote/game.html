@@ -38,7 +38,10 @@
             // ゲームIDを取得
 
             // アイテムテーブルに用語を入れる
-            var sql = `insert into Item (gameid, playerid, ord, content) values(1, "${playerid}", 1, "${content}");`;
+            var sql = `select ord from PlayerGame where playerid = "${playerid}";`;
+            var objects = await osql.connect(sql);
+            var ord = objects[0].ord;
+            var sql = `insert into Item (gameid, playerid, ord, content) values(1, "${playerid}", "${ord}", "${content}");`;
             var objects = await osql.connect(sql);
 
             // // 以下、一応残してるやつ
