@@ -20,13 +20,23 @@
             console.log(me);
             var playerid = me.studentid;
             var name = me.fname;
-
             var sql = `insert ignore into Player (id, name) values("${playerid}", "${name}");`;
             var objects = await osql.connect(sql);
             console.log(objects);
+            // Gameテーブルからplayernumberを取得
+            var sql = `select playernumber from Game where id = 1;`;
+            var objects = await osql.connect(sql);
+            console.log(objects);
+            var playernumber = Number(objects[0].playernumber) + 1;
+            // PlayerGameにplayeridとplayernumberを挿入
+            var sql = `insert into PlayerGame values("${playerid}", 1, "${playernumber}");`;
+            var objects = await osql.connect(sql);
 
+            var sql = `update Game set playernumber = "${playernumber}" where id = 1;`;
+            var objects = await osql.connect(sql);
             // document.getElementById('result').innerHTML = 'OK';
         }
+        
         async function startGame() {
             var sql = `update Game set turn = 1 where id = 1;`;
             var objects = await osql.connect(sql);
@@ -36,6 +46,23 @@
         async function createGame() {
             var sql = `insert into Game (turn) values(0);`;
             var objects = await osql.connect(sql);
+            // showGame();
+        }
+
+        async function showGame() {
+            var sql = `select id from Game;`;
+            var objects = await osql.connect(sql);
+            console.log(objects);
+            var html = '';
+            html = html + '<table border="1">';
+            for (var i = 0; i < objects.length; i++) {
+                var object = objects[i];
+                html = html + '<tr>';
+                html = html + '<td>' + object.id + '</td>';
+                html = html + '</tr>';
+            }
+            html = html + '</table>';
+            // document.getElementById('result').innerHTML = html;
         }
 
         async function judgeStart() {
@@ -47,8 +74,6 @@
             }
         }
 
-
-
     </script>
 
     <title>Document</title>
@@ -58,6 +83,7 @@
     <div class="contents">
         <p>グループメンバーの参加を待っています</p>
         <button onclick="createGame()">create game</button>
+        <!-- <button onclick="showGame()">show game</button> -->
         <button onclick="resetGame()">reset game</button>
         <button onclick="startGame()">start game</button>
         <button onclick="judgeStart()">judge start</button>
@@ -65,7 +91,9 @@
         <button onclick="buttonJoin1()" value="1" id="group1">1</button>
         <p class="result"></p>
     </div>
+    <script>
 
+    </script>
 </body>
 
 </html>
