@@ -44,6 +44,8 @@
             var sql = `insert into Item (gameid, playerid, ord, content) values(1, "${playerid}", "${ord}", "${content}");`;
             var objects = await osql.connect(sql);
 
+            doSelect();
+
             // // 以下、一応残してるやつ
             // var userid = osql.getParam('userid');
             // document.getElementById('tf1').value = userid;
@@ -63,13 +65,7 @@
         }
 
         async function doSelect() {
-            var userid = osql.getParam('userid');
-            document.getElementById('tf1').value = userid;
-            var sql = 'select * from Tweets order by time desc limit 20';
-            // 検索
-            // var word = document.getElementById('word').value;
-            // var sql = `select * from Tweets where tweet like "%${word}%";`;
-
+            var sql = 'select * from Item';
             var objects = await osql.connect(sql);
             console.log(objects);
             var html = '';
@@ -77,13 +73,12 @@
             for (var i = 0; i < objects.length; i++) {
                 var object = objects[i];
                 html = html + '<tr>';
-                html = html + '<td>' + '<a href="userhome.html?toid=' + object.name + '&fromid=' + userid + '">' + object.name + '</a>' + '</td>';
-                html = html + '<td>' + object.tweet + '</td>';
-                html = html + '<td>' + object.time + '</td>';
+                html = html + '<td>' + object.playerid + '</td>';
+                html = html + '<td>' + object.content + '</td>';
                 html = html + '</tr>';
             }
             html = html + '</table>';
-            document.getElementById('tweetresult').innerHTML = html;
+            document.getElementById('result').innerHTML = html;
         }
 
     </script>
@@ -101,7 +96,6 @@
     <button onclick="resetGame()">リセット</button>
     <hr>
     <p id="result"></p>
-    <p id="tweetresult">xxxx</p>
 </body>
 
 </html>
