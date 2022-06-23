@@ -6,12 +6,13 @@
 
     <script type="text/javascript" src="../lib/jquery.min.js"></script>
     <script type="text/javascript" src="../lib/osql.js"></script>
+    <script src="yamanote.js"></script>
 
     <script>
         osql.requireLogin();
         $().ready(function () {
             doInsert();
-            setInterval(judgeStart, 2000);
+            // setInterval(judgeStart, 2000);
         });
 
         async function doInsert() {
