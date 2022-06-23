@@ -34,12 +34,6 @@
             location.href = 'game.html';
         }
 
-        async function resetGame() {
-            var sql = `update Game set turn = 0 where id = 1;`;
-            var objects = await osql.connect(sql);
-            location.href = 'game.html';
-        }
-
         async function createGame() {
             var sql = `insert into Game (turn) values(0);`;
             var objects = await osql.connect(sql);
