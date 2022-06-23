@@ -23,9 +23,9 @@
             console.log(me);
         }
 
-        async function submit() {
+        function submit() {
             doInsert();
-            addTurn();
+            // addTurn();
         }
 
         async function doInsert() {
@@ -35,7 +35,11 @@
             var name = me.fname;
             var content = document.getElementById('word').value;
 
-            var sql = `insert into Item (gameid, playerid, order, content) values("${gameid}", "${playerid}", 1, "${content}");`;
+            // ゲームIDを取得
+
+            // アイテムテーブルに用語を入れる
+            var sql = `insert into Item (gameid, playerid, ord, content) values(1, "${playerid}", 1, "${content}");`;
+            var objects = await osql.connect(sql);
 
             // // 以下、一応残してるやつ
             // var userid = osql.getParam('userid');
