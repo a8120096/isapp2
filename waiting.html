@@ -31,7 +31,7 @@
             document.getElementById('result').innerHTML = html;
         }
 
-        async function setNember() {
+        async function setNumber() {
             var setNum = document.getElementById('tf').value
             var sql = `update Game set finishnum = "${setNum}" where gameid = "${gameid}";`;
             var objects = await osql.connect(sql);
