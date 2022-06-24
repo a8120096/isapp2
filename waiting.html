@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <script type="text/javascript" src="../lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../lib/osql.js"></script>
+    <script src="yamanote.js"></script>
+
+    <script>
+        osql.requireLogin();
+        $().ready(function () {
+            doInsert();
+            // setInterval(getMember, 2000);
+        });
+
+        async function getMember() {
+            var sql = `select * from G_P where gameid="${gameid}";`;
+            var objects = await osql.connect(sql);
+            console.log(objects);
+            var html = '';
+            html = html + '<table border="1">';
+            for (var i = 0; i < objects.length; i++) {
+                html = html + '<tr>';
+                var object = objects[i];
+                html = html + '<td>' + object.playerid + '</td>';
+                html = html + '</tr>';
+            }
+            html = html + '</table>';
+            document.getElementById('result').innerHTML = html;
+        }
+
+        async function setNember() {
+            var setNum = document.getElementById('tf').value
+            var sql = `update Game set finishnum = "${setNum}" where gameid = "${gameid}";`;
+            var objects = await osql.connect(sql);
+        }
+
+        async function startGame() {
+            var sql = `update Game set turn = 1 where gameid = "${gameid}";`;
+            var objects = await osql.connect(sql);
+            location.href = 'game.html';
+        }
+
+    </script>
+
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>待機画面</h1>
+    <div class="contents">
+        <p>グループxxの開始を待っています</p>
+        グループメンバー一覧<br>
+        <p id="result">xxxx</p>
+        終了値: <input id="tf" value="" type="textfield">
+        <button onclick="setNumber()">set Number</button>
+        <br>
+        <button onclick="startGame()">start game</button>
+    </div>
+    <script>
+
+    </script>
+</body>
+
+</html>
