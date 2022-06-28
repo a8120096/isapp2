@@ -28,13 +28,19 @@
             var objects = await osql.connect(sql);
             console.log(objects);
             var playernumber = Number(objects[0].playernumber) + 1;
-            // PlayerGameにplayeridとplayernumberを挿入
-            var sql = `insert into PlayerGame values("${playerid}", 1, "${playernumber}");`;
+
+            var sql = `select * from PlayerGame where playerid = "${playerid}" and gameid = 1;`;
             var objects = await osql.connect(sql);
 
-            var sql = `update Game set playernumber = "${playernumber}" where id = 1;`;
-            var objects = await osql.connect(sql);
-            // document.getElementById('result').innerHTML = 'OK';
+            if (objects.length <= 0) {
+                // PlayerGameにplayeridとplayernumberを挿入
+                var sql = `insert into PlayerGame values("${playerid}", 1, "${playernumber}");`;
+                var objects = await osql.connect(sql);
+
+                var sql = `update Game set playernumber = "${playernumber}" where id = 1;`;
+                var objects = await osql.connect(sql);
+                // document.getElementById('result').innerHTML = 'OK';
+            }
         }
         async function startGame() {
             var sql = `update Game set turn = 1 where id = 1;`;
