@@ -35,8 +35,6 @@
             var name = me.fname;
             var content = document.getElementById('word').value;
 
-            // ゲームIDを取得
-
             // アイテムテーブルに用語を入れる
             var sql = `select ord from PlayerGame where playerid = "${playerid}";`;
             var objects = await osql.connect(sql);
@@ -45,16 +43,6 @@
             var objects = await osql.connect(sql);
 
             doSelect();
-
-            // // 以下、一応残してるやつ
-            // var userid = osql.getParam('userid');
-            // document.getElementById('tf1').value = userid;
-            // var tweet = document.getElementById('tf2').value;
-            // // sqlを変える
-            // var sql = `insert into Tweets (name, tweet, time) values("${userid}", "${tweet}", now());`;
-            // var objects = await osql.connect(sql);
-            // document.getElementById('result').innerHTML = "tweetしました";
-            // document.getElementById('tf2').value = "";
         }
 
         async function addTurn() {
@@ -72,7 +60,7 @@
         async function doSelect() {
             var sql = 'select * from Item order by time desc';
             var objects = await osql.connect(sql);
-            console.log(objects);
+            // console.log(objects);
             var html = '';
             html = html + '<table border="1">';
             for (var i = 0; i < objects.length; i++) {
@@ -106,8 +94,10 @@
             // ゲーム人数から割って計算
             if (myOrd == ((nowturn - 1) % playernum) + 1) {
                 document.getElementById('ban').innerHTML = 'あなたの番です';
+                document.getElementById('word').disabled = false;
             } else {
                 document.getElementById('ban').innerHTML = '';
+                document.getElementById('word').disabled = true;
             }
 
             // 現在のターンを表示
@@ -129,10 +119,10 @@
     <br>
     用語:<input id="word" type="textfield">
     <button onclick="submit()">送信</button>
-    <br>
+    <!-- <br>
     <button onclick="resetGame()">リセット</button>
     <br>
-    <button onclick="judgeMyTurn()">ターン</button>
+    <button onclick="judgeMyTurn()">ターン</button> -->
     <hr>
     <p id="turn"></p>
     <p id="ban"></p>
