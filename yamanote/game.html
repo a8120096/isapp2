@@ -90,7 +90,7 @@
             var me = await osql.getMe();
             var playerid = me.studentid;
             // 自分のordをとる
-            var sql = `select ord from PlayerGame where playerid = ${playerid} and gameid = 1`;
+            var sql = `select ord from PlayerGame where playerid = "${playerid}" and gameid = 1`;
             var objects = await osql.connect(sql);
             // console.log(objects);
             // console.log(objects[0].ord);
