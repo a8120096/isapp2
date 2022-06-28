@@ -71,7 +71,7 @@
         }
 
         async function doSelect() {
-            var sql = 'select * from Item';
+            var sql = 'select * from Item order by time desc';
             var objects = await osql.connect(sql);
             console.log(objects);
             var html = '';
@@ -94,13 +94,13 @@
             var sql = `select ord from PlayerGame where playerid = ${playerid} and gameid = 1`;
             var objects = await osql.connect(sql);
             // console.log(objects);
-            console.log(objects[0].ord);
+            // console.log(objects[0].ord);
             var myOrd = objects[0].ord;
             // 現在のターンとゲーム人数を取得
             var sql = 'select * from Game where id = 1';
             var objects = await osql.connect(sql);
-            console.log(objects[0].turn);
-            console.log(objects[0].playernumber);
+            // console.log(objects[0].turn);
+            // console.log(objects[0].playernumber);
             var nowturn = objects[0].turn;
             var playernum = objects[0].playernumber
 
@@ -110,6 +110,9 @@
             } else {
                 document.getElementById('ban').innerHTML = '';
             }
+
+            // 現在のターンを表示
+            document.getElementById('turn').innerHTML = `現在のターン: ${nowturn}`;
 
         }
 
@@ -132,6 +135,7 @@
     <br>
     <button onclick="judgeMyTurn()">ターン</button>
     <hr>
+    <p id="turn"></p>
     <p id="ban"></p>
     <p id="result"></p>
 </body>
