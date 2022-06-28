@@ -5,4 +5,3 @@ async function resetGame() {
     var sql = `delete from PlayerGame where gameid = 1`;
     var objects = await osql.connect(sql);
 }
-
