@@ -12,9 +12,8 @@
     <script>
         osql.requireLogin();
         $().ready(function () {
-            doSelect();
-            judgeMyTurn();
-            // setInterval(judgeMyTurn, 2000);
+            setInterval(doSelect, 2000);
+            setInterval(judgeMyTurn, 2000);
             getProfile();
         });
 
