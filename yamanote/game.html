@@ -12,8 +12,9 @@
     <script>
         osql.requireLogin();
         $().ready(function () {
-            // await doSelect();
-            // setInterval(doSelect, 2000);
+            doSelect();
+            judgeMyTurn();
+            // setInterval(judgeMyTurn, 2000);
             getProfile();
         });
 
@@ -25,7 +26,7 @@
 
         function submit() {
             doInsert();
-            // addTurn();
+            addTurn();
         }
 
         async function doInsert() {
@@ -58,10 +59,15 @@
         }
 
         async function addTurn() {
-            // var sql = `update Game set turn + 1 where id = 1;`;
-            // var objects = await osql.connect(sql);
-            // location.href = 'game.html';
-            // console.log(sql);
+            var sql = `select * from Game where id = 1;`;
+            var objects = await osql.connect(sql);
+            console.log(objects[0].turn);
+            var addturn = Number(objects[0].turn) + 1;
+            console.log(addturn)
+            var sql = `update Game set turn = ${addturn} where id = 1;`;
+            var objects = await osql.connect(sql);
+            doSelect();
+            console.log(sql);
         }
 
         async function doSelect() {
@@ -81,6 +87,32 @@
             document.getElementById('result').innerHTML = html;
         }
 
+        async function judgeMyTurn() {
+            var me = await osql.getMe();
+            var playerid = me.studentid;
+            // 自分のordをとる
+            var sql = `select ord from PlayerGame where playerid = ${playerid} and gameid = 1`;
+            var objects = await osql.connect(sql);
+            // console.log(objects);
+            console.log(objects[0].ord);
+            var myOrd = objects[0].ord;
+            // 現在のターンとゲーム人数を取得
+            var sql = 'select * from Game where id = 1';
+            var objects = await osql.connect(sql);
+            console.log(objects[0].turn);
+            console.log(objects[0].playernumber);
+            var nowturn = objects[0].turn;
+            var playernum = objects[0].playernumber
+
+            // ゲーム人数から割って計算
+            if (myOrd == ((nowturn - 1) % playernum) + 1) {
+                document.getElementById('ban').innerHTML = 'あなたの番です';
+            } else {
+                document.getElementById('ban').innerHTML = '';
+            }
+
+        }
+
         // ターン数の表示、用語が送信された時の処理
         // 自分じゃないターンの時は入力できないようにする
 
@@ -97,7 +129,10 @@
     <button onclick="submit()">送信</button>
     <br>
     <button onclick="resetGame()">リセット</button>
+    <br>
+    <button onclick="judgeMyTurn()">ターン</button>
     <hr>
+    <p id="ban"></p>
     <p id="result"></p>
 </body>
 
