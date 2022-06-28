@@ -13,8 +13,8 @@
         osql.requireLogin();
         $().ready(function () {
             doSelect();
-            judgeMyTurn();
-            // setInterval(judgeMyTurn, 2000);
+            // judgeMyTurn();
+            setInterval(judgeMyTurn, 2000);
             getProfile();
         });
 
@@ -130,7 +130,7 @@
     <br>
     <button onclick="resetGame()">リセット</button>
     <br>
-    <button onclick="judgeMyTurn()">ターン</button>
+    <!-- <button onclick="judgeMyTurn()">ターン</button> -->
     <hr>
     <p id="ban"></p>
     <p id="result"></p>
