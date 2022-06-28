@@ -36,7 +36,6 @@
             var objects = await osql.connect(sql);
             // document.getElementById('result').innerHTML = 'OK';
         }
-
         async function startGame() {
             var sql = `update Game set turn = 1 where id = 1;`;
             var objects = await osql.connect(sql);
