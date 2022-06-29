@@ -40,14 +40,12 @@
 
                 var sql = `update Game set playernumber = "${playernumber}" where id = ${gameid};`;
                 var objects = await osql.connect(sql);
-                // document.getElementById('result').innerHTML = 'OK';
             }
         }
         async function startGame() {
             var gameid = osql.getParam("gameid");
             var sql = `update Game set turn = 1 where id = ${gameid};`;
             var objects = await osql.connect(sql);
-            // location.href = 'game.html';
         }
 
         async function judgeStart() {
@@ -67,12 +65,10 @@
 
 <body>
     <div class="contents">
-        <p>グループメンバーの参加を待っています</p>
         <p>ゲーム番号: <span id="gameid"></span></p>
         <button onclick="startGame()">start game</button>
-        <button onclick="judgeStart()">judge start</button>
         <br>
-        <p class="result"></p>
+        <p>グループメンバーの参加を待っています</p>
     </div>
     <script>
 
