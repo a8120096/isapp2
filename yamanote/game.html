@@ -94,19 +94,10 @@
             // ゲーム人数から割って計算
             if (myOrd == ((nowturn - 1) % playernum) + 1) {
                 document.getElementById('ban').innerHTML = 'あなたの番です';
-<<<<<<< HEAD
-                // テキストフイールドを表示
-                document.getElementById('word').disable = false;
-            } else {
-                document.getElementById('ban').innerHTML = '';
-                // テキストフイールドを非表示
-                document.getElementById('word').disable = true;
-=======
                 document.getElementById('word').disabled = false;
             } else {
                 document.getElementById('ban').innerHTML = '';
                 document.getElementById('word').disabled = true;
->>>>>>> dfe1f5680abf339b8be885e02f1d4ebe0f6aff4f
             }
 
             // 現在のターンを表示
