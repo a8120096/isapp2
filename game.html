@@ -68,7 +68,7 @@
             console.log(objects[0].turn);
             var addturn = Number(objects[0].turn) + 1;
             console.log(addturn)
-            var sql = `update Game set turn = ${addturn} where id = ${gameid};`;
+            var sql = `update Games set turn = ${addturn} where id = ${gameid};`;
             var objects = await osql.connect(sql);
             doSelect();
             console.log(sql);
@@ -96,13 +96,13 @@
             var playerid = me.studentid;
             var gameid = osql.getParam("gameid");
             // 自分のordをとる
-            var sql = `select ord from PlayerGame where playerid = "${playerid}" and gameid = ${gameid}`;
+            var sql = `select ord from G_P where playerid = "${playerid}" and gameid = ${gameid}`;
             var objects = await osql.connect(sql);
             // console.log(objects);
             // console.log(objects[0].ord);
             var myOrd = objects[0].ord;
             // 現在のターン、ゲーム人数を取得
-            var sql = `select * from Game where id = ${gameid}`;
+            var sql = `select * from Games where id = ${gameid}`;
             var objects = await osql.connect(sql);
             // console.log(objects[0].turn);
             // console.log(objects[0].playernumber);
@@ -111,7 +111,7 @@
 
             // 現在の手番、その手番のユーザを取得
             var nowOrd = ((nowturn - 1) % playernum) + 1
-            var sql = `select playerid from PlayerGame where ord = ${nowOrd} and gameid = ${gameid}`;
+            var sql = `select playerid from G_P where ord = ${nowOrd} and gameid = ${gameid}`;
             var objects = await osql.connect(sql);
             var nowPlayer = objects[0].playerid;
 
