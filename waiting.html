@@ -12,7 +12,7 @@
         $().ready(function () {
             getGameid();
             doInsert();
-            setInterval(judgeStart, 2000);
+            // setInterval(judgeStart, 2000);
         });
 
         async function getGameid() {
@@ -24,6 +24,7 @@
             var me = await osql.getMe();
             var playerid = me.studentid;
             var gameid = osql.getParam("gameid");
+            console.log(gameid);
             // Gamesテーブルからplayernumを取得
             var sql = `select playernum from Games where id = ${gameid};`;
             var objects = await osql.connect(sql);
@@ -32,11 +33,12 @@
 
             var sql = `select * from G_P where playerid = "${playerid}" and gameid = ${gameid};`;
             var objects = await osql.connect(sql);
+            console.log(objects);
 
             if (objects.length <= 0) {
                 // G_Pにplayeridとplayernumを挿入
                 // G_Pのplayernumはordのこと
-                var sql = `insert into G_P values(${gameid}, "${playerid}", "${playernum}");`;
+                var sql = `insert into G_P values(${gameid}, "${playerid}", ${playernum});`;
                 var objects = await osql.connect(sql);
 
                 var sql = `update Games set playernum = "${playernum}" where id = ${gameid};`;
