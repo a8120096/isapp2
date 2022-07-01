@@ -16,7 +16,7 @@
             console.log(me);
             var playerid = me.studentid;
             var name = me.fname;
-            var sql = `insert ignore into Player (id, name) values("${playerid}", "${name}");`;
+            var sql = `insert ignore into Players (playerid, name) values("${playerid}", "${name}");`;
             var objects = await osql.connect(sql);
             console.log(objects);
             location.href = 'usertop.html';
