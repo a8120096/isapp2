@@ -12,7 +12,7 @@
         $().ready(function () {
             getProfile();
             showGame();
-            setInterval(showGame, 2000)
+            // setInterval(showGame, 2000)
         });
 
         async function getProfile() {
@@ -22,13 +22,15 @@
         }
 
         async function createGame() {
-            var sql = `insert into Game (turn, playernumber) values(0, 0);`;
+            var finishnum = document.getElementById('finish_num').value;
+            console.log(finishnum);
+            var sql = `insert into Games (turn, finishnum, playernum) values(0, ${finishnum}, 0);`;
             var objects = await osql.connect(sql);
             // showGame();
         }
 
         async function showGame() {
-            var sql = `select id from Game;`;
+            var sql = `select id from Games;`;
             var objects = await osql.connect(sql);
             console.log(objects);
             var html = '';
@@ -53,6 +55,8 @@
     <p id="welcome"></p>
     <p id="user_name"></p>
     <hr>
+    <input id="finish_num" type="text">終了数値を入力して、create gameボタンを押してください。
+    <br>
     <button onclick="createGame()">create game</button>
     <br>
     <p id="result"></p>
