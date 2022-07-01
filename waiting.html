@@ -23,33 +23,34 @@
         async function doInsert() {
             var me = await osql.getMe();
             var gameid = osql.getParam("gameid");
-            // Gameテーブルからplayernumberを取得
-            var sql = `select playernumber from Game where id = ${gameid};`;
+            // Gamesテーブルからplayernumを取得
+            var sql = `select playernum from Games where id = ${gameid};`;
             var objects = await osql.connect(sql);
             console.log(objects);
-            var playernumber = Number(objects[0].playernumber) + 1;
+            var playernum = Number(objects[0].playernum) + 1;
 
-            var sql = `select * from PlayerGame where playerid = "${playerid}" and gameid = ${gameid};`;
+            var sql = `select * from G_P where playerid = "${playerid}" and gameid = ${gameid};`;
             var objects = await osql.connect(sql);
 
             if (objects.length <= 0) {
-                // PlayerGameにplayeridとplayernumberを挿入
-                var sql = `insert into PlayerGame values("${playerid}", 1, "${playernumber}");`;
+                // G_Pにplayeridとplayernumを挿入
+                // G_Pのplayernumはordのこと
+                var sql = `insert into G_P values(${gameid}, "${playerid}", "${playernum}");`;
                 var objects = await osql.connect(sql);
 
-                var sql = `update Game set playernumber = "${playernumber}" where id = ${gameid};`;
+                var sql = `update Games set playernum = "${playernum}" where id = ${gameid};`;
                 var objects = await osql.connect(sql);
             }
         }
         async function startGame() {
             var gameid = osql.getParam("gameid");
-            var sql = `update Game set turn = 1 where id = ${gameid};`;
+            var sql = `update Games set turn = 1 where id = ${gameid};`;
             var objects = await osql.connect(sql);
         }
 
         async function judgeStart() {
             var gameid = osql.getParam("gameid");
-            var sql = `select turn from Game where id = ${gameid}`;
+            var sql = `select turn from Games where id = ${gameid}`;
             var objects = await osql.connect(sql);
             console.log(objects);
             if (Number(objects[0].turn) == 1) {
