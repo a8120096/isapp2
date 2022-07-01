@@ -24,7 +24,7 @@
         async function createGame() {
             var finishnum = document.getElementById('finish_num').value;
             console.log(finishnum);
-            var sql = `insert into Games (turn, finishnum, playernum) values(0, ${finishnum}, 0);`;
+            var sql = `insert into Games (turn, finishnum, playernum, sumnum) values(0, ${finishnum}, 0, 0);`;
             var objects = await osql.connect(sql);
             // showGame();
         }
