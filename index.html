@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -8,48 +7,26 @@
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/osql.js"></script>
 
+    <title>トップ</title>
     <script>
         osql.requireLogin();
 
-        async function buttonPressed() {
-            var userid = document.getElementById('tf1').value;
-            var password = document.getElementById('tf2').value;
-
-            var sql = `select * from Users where id="${userid}";`;
+        async function login() {
+            var me = await osql.getMe();
+            console.log(me);
+            var playerid = me.studentid;
+            var name = me.fname;
+            var sql = `insert ignore into Player (id, name) values("${playerid}", "${name}");`;
             var objects = await osql.connect(sql);
-            if (objects.length <= 0) {
-                document.getElementById('result').innerHTML = 'ログイン失敗：ユーザが見つかりません';
-                return;
-            }
-            if (objects[0].password != password) {
-                document.getElementById('result').innerHTML = 'ログイン失敗：パスワードが違います';
-                return;
-            }
-
-            sessionStorage.setItem('userid', objects[0].id);
-            sessionStorage.setItem('username', objects[0].name);
-
+            console.log(objects);
             location.href = 'usertop.html';
         }
-    </script>
 
+    </script>
 </head>
 
 <body>
-    <h1>ユーザ管理　アプリケーション　v3</h1>
-    <div>
-        <h2>ログイン</h2>
-        userid:<input id="tf1" value="" type="textfield">
-        <br>
-        password:<input id="tf2" value="" type="password">
-        <br>
-        <button onclick="buttonPressed()">ログイン</button>
-        <p id="result"></p>
-    </div>
-    <hr>
-    <p><a href="register.html">新規登録</a></p>
-    <hr>
-    <p style="text-align: right"><a href="admintop.html">管理者ページ</a></p>
+    <button onclick="login()">ログイン</button>
 </body>
 
 </html>

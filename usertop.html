@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="ja">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -11,94 +10,53 @@
     <script>
         osql.requireLogin();
         $().ready(function () {
-            doInsert();
-            // setInterval(judgeStart, 2000);
+            getProfile();
+            showGame();
+            setInterval(showGame, 2000)
         });
 
-        async function doInsert() {
+        async function getProfile() {
             var me = await osql.getMe();
+            document.getElementById('user_name').innerHTML = me.fname;
             console.log(me);
-            var playerid = me.studentid;
-            var name = me.fname;
-            var sql = `insert ignore into Players (playerid, name) values("${playerid}", "${name}");`;
-            var objects = await osql.connect(sql);
-            console.log(objects);
-            // ようこそ
-            var html;
-            html = `${name}さんようこそ`;
-            document.getElementById('welcome').innerHTML = html;
-
-            // Gameテーブルからplayernumberを取得
-            // var sql = `select playernumber from Game where id = 1;`;
-            // var objects = await osql.connect(sql);
-            // console.log(objects);
-            // var playernumber = Number(objects[0].playernumber) + 1;
-            // // PlayerGameにplayeridとplayernumberを挿入
-            // var sql = `insert into PlayerGame values("${playerid}", 1, "${playernumber}");`;
-            // var objects = await osql.connect(sql);
-
-            // var sql = `update Game set playernumber = "${playernumber}" where id = 1;`;
-            // var objects = await osql.connect(sql);
-            // document.getElementById('result').innerHTML = 'OK';
-
         }
 
         async function createGame() {
-            var sql = `insert into Games (turn, finishnum, playernum) values(0, 0, 0);`;
+            var sql = `insert into Game (turn, playernumber) values(0, 0);`;
             var objects = await osql.connect(sql);
-            showGame();
+            // showGame();
         }
 
         async function showGame() {
-            var sql = `select * from Games;`;
+            var sql = `select id from Game;`;
             var objects = await osql.connect(sql);
             console.log(objects);
             var html = '';
-            console.log(objects.length);
+            html = html + '<table border="1">';
             for (var i = 0; i < objects.length; i++) {
                 var object = objects[i];
-                html = html + `<button onclick="joinGame(this)" values="${object.id}">${object.id}</button>`;
-                html = html + '<br>';
+                html = html + '<tr>';
+                html = html + '<td>' + object.id + '</td>';
+                html = html + '<td><a href="waiting.html?gameid=' + object.id + '">入室</a></td>';
+                html = html + '</tr>';
             }
-            document.getElementById('show-game').innerHTML = html;
+            html = html + '</table>';
+            document.getElementById('result').innerHTML = html;
         }
-
-        async function joinGame(gameid) {
-            var me = await osql.getMe();
-            console.log(me);
-            var playerid = me.studentid;
-            // ボタンのvalueをとる
-            // update.html参照する→playeridとgameidをgame.htmlに引き継ぎたい
-            var gameid = gameid.getAttribute('value');
-            console.log(gameid);
-            // PlayerGameにplayeridとplayernumberを挿入
-            // var sql = `insert into G_P values("${playerid}", "${playernumber}");`;
-            // var objects = await osql.connect(sql);
-        }
-
-        // async function judgeStart() {
-        //     var sql = `select turn from Game where id = 1`;
-        //     var objects = await osql.connect(sql);
-        //     console.log(objects);
-        //     if (Number(objects[0].turn) == 1) {
-        //         location.href = 'game.html';
-        //     }
-        // }
     </script>
 
+    <title>Document</title>
 </head>
 
 <body>
     <h1>ユーザトップ</h1>
     <p id="welcome"></p>
+    <p id="user_name"></p>
     <hr>
     <button onclick="createGame()">create game</button>
-    <button onclick="resetGame()">reset game</button>
-    <button onclick="showGame()">show game</button>
     <br>
+    <p id="result"></p>
     <p id="show-game"></p>
-    <button onclick="buttonJoin1()" value="1" id="group1">仮のボタン</button>
-
 </body>
 
 </html>

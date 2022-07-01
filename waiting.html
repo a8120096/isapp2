@@ -6,41 +6,55 @@
 
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/osql.js"></script>
-    <!-- <script src="yamanote.js"></script> -->
 
     <script>
         osql.requireLogin();
         $().ready(function () {
-            getMember
-            // setInterval(getMember, 2000);
+            getGameid();
+            doInsert();
+            setInterval(judgeStart, 2000);
         });
 
-        async function getMember() {
-            var sql = `select * from G_P where gameid="${gameid}";`;
+        async function getGameid() {
+            var gameid = osql.getParam("gameid");
+            document.getElementById('gameid').innerHTML = gameid;
+        }
+
+        async function doInsert() {
+            var me = await osql.getMe();
+            var gameid = osql.getParam("gameid");
+            // Gameテーブルからplayernumberを取得
+            var sql = `select playernumber from Game where id = ${gameid};`;
             var objects = await osql.connect(sql);
             console.log(objects);
-            var html = '';
-            html = html + '<table border="1">';
-            for (var i = 0; i < objects.length; i++) {
-                html = html + '<tr>';
-                var object = objects[i];
-                html = html + '<td>' + object.playerid + '</td>';
-                html = html + '</tr>';
+            var playernumber = Number(objects[0].playernumber) + 1;
+
+            var sql = `select * from PlayerGame where playerid = "${playerid}" and gameid = ${gameid};`;
+            var objects = await osql.connect(sql);
+
+            if (objects.length <= 0) {
+                // PlayerGameにplayeridとplayernumberを挿入
+                var sql = `insert into PlayerGame values("${playerid}", 1, "${playernumber}");`;
+                var objects = await osql.connect(sql);
+
+                var sql = `update Game set playernumber = "${playernumber}" where id = ${gameid};`;
+                var objects = await osql.connect(sql);
             }
-            html = html + '</table>';
-            document.getElementById('result').innerHTML = html;
         }
-
-        async function setNumber() {
-            var setNum = document.getElementById('tf').value
-            var sql = `update Game set finishnum = "${setNum}" where gameid = "${gameid}";`;
-            var objects = await osql.connect(sql);
-        }
-
         async function startGame() {
-            var sql = `update Game set turn = 1 where gameid = "${gameid}";`;
+            var gameid = osql.getParam("gameid");
+            var sql = `update Game set turn = 1 where id = ${gameid};`;
             var objects = await osql.connect(sql);
-            location.href = 'game.html';
+        }
+
+        async function judgeStart() {
+            var gameid = osql.getParam("gameid");
+            var sql = `select turn from Game where id = ${gameid}`;
+            var objects = await osql.connect(sql);
+            console.log(objects);
+            if (Number(objects[0].turn) == 1) {
+                location.href = 'game.html?gameid=' + gameid;
+            }
         }
 
     </script>
@@ -49,15 +63,11 @@
 </head>
 
 <body>
-    <h1>待機画面</h1>
     <div class="contents">
-        <p>グループxxの開始を待っています</p>
-        グループメンバー一覧<br>
-        <p id="result">xxxx</p>
-        終了値: <input id="tf" value="" type="textfield">
-        <button onclick="setNumber()">set Number</button>
-        <br>
+        <p>ゲーム番号: <span id="gameid"></span></p>
         <button onclick="startGame()">start game</button>
+        <br>
+        <p>グループメンバーの参加を待っています</p>
     </div>
     <script>
 
