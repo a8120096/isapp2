@@ -22,6 +22,7 @@
 
         async function doInsert() {
             var me = await osql.getMe();
+            var playerid = me.studentid;
             var gameid = osql.getParam("gameid");
             // Gamesテーブルからplayernumを取得
             var sql = `select playernum from Games where id = ${gameid};`;
