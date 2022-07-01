@@ -30,7 +30,7 @@
 
         function submit() {
             doInsert();
-            // addTurn();
+            addTurn();
         }
 
         async function doInsert() {
@@ -39,7 +39,6 @@
             var playerid = me.studentid;
             var name = me.fname;
             var selectnum = document.getElementById('selectnum').value;
-            console.log(selectnum)
 
             // プレイヤーの手番を取得
             var sql = `select ord from G_P where playerid = "${playerid}";`;
@@ -47,16 +46,19 @@
             console.log(objects)
             var ord = objects[0].ord;
             var gameid = osql.getParam("gameid");
-            // sumnumの計算をしないといけない
-            var sql = `select * from Numbers where gameid = "${gameid}";`;
+
+            var sql = `insert into Numbers (gameid, playerid, ord, number) values("${gameid}", "${playerid}", ${ord}, ${selectnum});`;
             var objects = await osql.connect(sql);
-            var sumnum = objects[0].sumnum;
-            console.log(sumnum);
 
+            // if (objects.length <= 0) {
+            //     // G_Pにplayeridとplayernumを挿入
+            //     // G_Pのplayernumはordのこと
+            //     var sql = `insert into G_P values(${gameid}, "${playerid}", ${playernum});`;
+            //     var objects = await osql.connect(sql);
 
-
-            var sql = `insert into Numbers (gameid, playerid, ord, number, sumnum) values(${gameid}, "${playerid}", "${ord}", "${selectnum}}", "${sumnum}}");`;
-            var objects = await osql.connect(sql);
+            //     var sql = `update Games set playernum = "${playernum}" where id = ${gameid};`;
+            //     var objects = await osql.connect(sql);
+            // }
 
             // doSelect();
         }
@@ -66,12 +68,27 @@
             var sql = `select * from Games where id = ${gameid};`;
             var objects = await osql.connect(sql);
             console.log(objects[0].turn);
+
+            // ターン数の追加
             var addturn = Number(objects[0].turn) + 1;
             console.log(addturn)
-            var sql = `update Game set turn = ${addturn} where id = ${gameid};`;
+            // var sql = `update Game set turn = ${addturn} where id = ${gameid};`;
+            // var objects = await osql.connect(sql);
+
+            var selectnum = Number(document.getElementById('selectnum').value);
+            // sumnumのupdateをする
+            var sql = `select * from Games where id = "${gameid}";`;
             var objects = await osql.connect(sql);
-            doSelect();
-            console.log(sql);
+            var now_sumnum = Number(objects[0].sumnum); // 今の合計値を取得する
+            console.log(now_sumnum);
+
+            // sumnumとターンをupdateする
+            var sum_num = now_sumnum + selectnum;
+            console.log(selectnum);
+            var sql = `update Games set turn = ${addturn}, sumnum = ${sum_num} where id = "${gameid}";`;
+            var objects = await osql.connect(sql);
+
+            // doSelect();
         }
 
         // async function doSelect() {
