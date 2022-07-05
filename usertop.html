@@ -26,7 +26,7 @@
             console.log(finishnum);
             var sql = `insert into Games (turn, finishnum, playernum, sumnum) values(0, ${finishnum}, 0, 0);`;
             var objects = await osql.connect(sql);
-            // showGame();
+            showGame();
         }
 
         async function showGame() {
