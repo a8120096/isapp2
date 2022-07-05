@@ -71,17 +71,14 @@
 
             // ターン数の追加
             var addturn = Number(objects[0].turn) + 1;
-            console.log(addturn)
-<<<<<<< HEAD
+            console.log(addturn);
             var sql = `update Games set turn = ${addturn} where id = ${gameid};`;
-=======
             // var sql = `update Game set turn = ${addturn} where id = ${gameid};`;
             // var objects = await osql.connect(sql);
 
             var selectnum = Number(document.getElementById('selectnum').value);
             // sumnumのupdateをする
             var sql = `select * from Games where id = "${gameid}";`;
->>>>>>> e197302e014bf9005495a3f3bb9e50188835d1da
             var objects = await osql.connect(sql);
             var now_sumnum = Number(objects[0].sumnum); // 今の合計値を取得する
             console.log(now_sumnum);
