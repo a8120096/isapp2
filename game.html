@@ -155,10 +155,10 @@
             // ゲーム人数から割って計算
             if (myOrd == nowOrd) {
                 document.getElementById('ban').innerHTML = 'あなたの番です';
-                document.getElementById('submit_num').visibility = true;
+                document.getElementById('submit_num').style.visibility = 'visible';
             } else {
                 document.getElementById('ban').innerHTML = nowPlayer + 'の番です';
-                document.getElementById('submit_num').visibility = fales;
+                document.getElementById('submit_num').style.visibility = 'hidden';
             }
 
             // 現在のターンを表示
