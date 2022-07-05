@@ -45,6 +45,12 @@
                 var objects = await osql.connect(sql);
             }
         }
+
+        async function waitMember() {
+            var sql = `select * from G_P where gameid = "${gameid}";`;
+            var objects = await osql.connect(sql);
+            console.log(objects[0].playerid);
+        }
         async function startGame() {
             var gameid = osql.getParam("gameid");
             var sql = `update Games set turn = 1 where id = ${gameid};`;
