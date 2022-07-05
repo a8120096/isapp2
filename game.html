@@ -75,11 +75,7 @@
 
             // ターン数の追加
             var addturn = Number(objects[0].turn) + 1;
-<<<<<<< HEAD
             console.log(addturn)
-=======
-            console.log(addturn);
->>>>>>> b4a4faca918ecbbc9fdcd0f7af978a15fdecf62a
             var sql = `update Games set turn = ${addturn} where id = ${gameid};`;
             // var sql = `update Game set turn = ${addturn} where id = ${gameid};`;
             // var objects = await osql.connect(sql);
