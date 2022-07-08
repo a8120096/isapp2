@@ -11,8 +11,7 @@
         osql.requireLogin();
         $().ready(function () {
             getProfile();
-            showGame();
-            // setInterval(showGame, 2000)
+            setInterval(showGame, 2000)
         });
 
         async function getProfile() {
