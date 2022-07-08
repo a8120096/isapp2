@@ -11,9 +11,8 @@
         osql.requireLogin();
         $().ready(function () {
             getProfile();
-            showGame();
-            // setInterval(showGame, 2000)
-        });
+            setInterval(showGame, 2000);
+        })
 
         async function getProfile() {
             var me = await osql.getMe();
@@ -32,7 +31,6 @@
         async function showGame() {
             var sql = `select id from Games;`;
 
-            // select * from Games inner join G_P on G_P.gameid = Games.id inner join Players on Players.playerid = G_P.playerid
             var objects = await osql.connect(sql);
             console.log(objects);
             var html = '';
@@ -41,10 +39,10 @@
                 var object = objects[i];
                 html = html + '<tr>';
                 html = html + '<td>' + object.id + '</td>';
-                html = html + '<td><a href="waiting.html?gameid=' + object.id + '">入室</a></td>';
+                html = html + '<td><a href="waiting.html?gameid=' + object.id + '"><button id="btn"' + object.id + '" >入室</button></a></td>';
                 var sql2 = `select * from Games inner join G_P on G_P.gameid = Games.id inner join Players on Players.playerid = G_P.playerid where id = ${object.id};`;
                 var objects2 = await osql.connect(sql2);
-                // console.log(objects2.length);
+
                 for (var j = 0; j < objects2.length; j++) {
                     var object2 = objects2[j];
                     // console.log(object2);
@@ -54,6 +52,22 @@
             }
             html = html + '</table>';
             document.getElementById('result').innerHTML = html;
+        }
+
+        async function judgeGame() {
+            var sql = `select * from Games;`;
+            var objects = await osql.connect(sql);
+            console.log(objects);
+
+            for (var i = 0; i < objects.length; i++) {
+                var object = objects[i];
+                if (object.finishnum > object.sumnum) {
+                    document.getElementById(`btn${object.id}`).disabled = false;
+                }
+                else if (object.finishnum <= object.sumnum) {
+                    document.getElementById(`btn${object.id}`).disabled = true;
+                }
+            }
         }
     </script>
 
@@ -68,6 +82,7 @@
     <input id="finish_num" type="text">ゲームの終了数値を入力して、create gameボタンを押してください。
     <br>
     <button onclick="createGame()">create game</button>
+    <button onclick="judgeGame()">ゲームが終わっているか</button>
     <br>
     <p id="result"></p>
     <p id="show-game"></p>
