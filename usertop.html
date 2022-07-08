@@ -75,18 +75,25 @@
 </head>
 
 <body>
-    <h1>ユーザトップ</h1>
-    <p id="welcome"></p>
-    <p id="user_name"></p>
-    <hr>
-    ゲームの終了数値を入力して、ゲーム作成ボタンを押してください。<br>
-    <input id="finish_num" type="text">
-    <br>
-    <button onclick="createGame()">ゲーム作成</button>
-    <button onclick="judgeGame()">ゲームが終わっているか</button>
-    <br>
-    <p id="result"></p>
-    <p id="show-game"></p>
+    <h1>数取りゲーム</h1>
+    <h2>ユーザートップ</h2>
+    <div class="contents">
+        <p id="user_name"></p>
+        <hr>
+        <h4>ルール説明</h4>
+        <ol type="1">
+            <li>終了値を入力してルームを作成してください</li>
+            <li>ユーザーは自分のターンで1から3の数字を選択できます</li>
+            <li>ターンごとにユーザーが選択した数字を足していきます</li>
+            <li>その数字が終了値に達した時点でその人が負けになります</li>
+        </ol>
+        <hr>
+        終了値:<input id="finish_num" type="text"><button onclick="createGame()">ゲーム作成</button>
+        <button onclick="judgeGame()">ゲームが終わっているか</button>
+        <br>
+        <p id="result"></p>
+        <p id="show-game"></p>
+    </div>
 </body>
 
 </html>
