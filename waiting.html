@@ -12,6 +12,7 @@
         var gameid = osql.getParam("gameid");
         $().ready(function () {
             getGameid();
+            getProfile();
             doInsert();
             setInterval(judgeStart, 2000);
             setInterval(waitMember, 2000);
@@ -19,6 +20,12 @@
 
         async function getGameid() {
             document.getElementById('gameid').innerHTML = gameid;
+        }
+
+        async function getProfile() {
+            var me = await osql.getMe();
+            document.getElementById('user_name').innerHTML = `ようこそ ${me.fname} さん`;
+            console.log(me);
         }
 
         async function doInsert() {
@@ -85,10 +92,15 @@
 </head>
 
 <body>
+    <h1>数取りゲーム</h1>
+    <h2>待機画面</h2>
     <div class="contents">
+        <p id="user_name"></p>
         <p>ゲーム番号: <span id="gameid"></span></p>
-        <p>グループメンバーの参加を待っています</p>
-        <p>メンバー全員の参加が完了したら、手番1のユーザーが「ゲーム開始ボタン」を押してください</p>
+        <p>
+            グループメンバーの参加を待っています<br>
+            メンバー全員の参加が完了したら、手番1のユーザーが「ゲーム開始ボタン」を押してください
+        </p>
         <button onclick="startGame()">ゲーム開始</button>
         <!-- <button onclick="waitMember()">wait Member</button> -->
         <p id="result"></p>
