@@ -9,21 +9,21 @@
 
     <script>
         osql.requireLogin();
+        var gameid = osql.getParam("gameid");
         $().ready(function () {
             getGameid();
             doInsert();
             setInterval(judgeStart, 2000);
+            setInterval(waitMember, 2000);
         });
 
         async function getGameid() {
-            var gameid = osql.getParam("gameid");
             document.getElementById('gameid').innerHTML = gameid;
         }
 
         async function doInsert() {
             var me = await osql.getMe();
             var playerid = me.studentid;
-            var gameid = osql.getParam("gameid");
             console.log(gameid);
             // Gamesテーブルからplayernumを取得
             var sql = `select playernum from Games where id = ${gameid};`;
@@ -47,18 +47,30 @@
         }
 
         async function waitMember() {
-            var sql = `select * from G_P where gameid = "${gameid}";`;
+            var sql = `select * from G_P inner join Players on Players.playerid = G_P.playerid where gameid = "${gameid}";`;
             var objects = await osql.connect(sql);
-            console.log(objects[0].playerid);
+            var html = '';
+            html = html + '<table border="1">';
+            html = html + '<tr>';
+            html = html + '<td>メンバー</td>';
+            html = html + '<td>手番</td>';
+            html = html + '</tr>';
+            for (var i = 0; i < objects.length; i++) {
+                var object = objects[i];
+                html = html + '<tr>';
+                html = html + '<td>' + object.name + '</td>';
+                html = html + '<td>' + object.ord + '</td>';
+                html = html + '</tr>';
+            }
+            html = html + '</table>';
+            document.getElementById('result').innerHTML = html;
         }
         async function startGame() {
-            var gameid = osql.getParam("gameid");
             var sql = `update Games set turn = 1 where id = ${gameid};`;
             var objects = await osql.connect(sql);
         }
 
         async function judgeStart() {
-            var gameid = osql.getParam("gameid");
             var sql = `select turn from Games where id = ${gameid}`;
             var objects = await osql.connect(sql);
             console.log(objects);
@@ -76,12 +88,11 @@
     <div class="contents">
         <p>ゲーム番号: <span id="gameid"></span></p>
         <button onclick="startGame()">start game</button>
+        <button onclick="waitMember()">wait Member</button>
         <br>
         <p>グループメンバーの参加を待っています</p>
+        <p id="result"></p>
     </div>
-    <script>
-
-    </script>
 </body>
 
 </html>
