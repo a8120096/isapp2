@@ -10,11 +10,13 @@
 
     <script>
         osql.requireLogin();
+        var gameid = osql.getParam("gameid");
+
         $().ready(function () {
             getProfile();
             getGameid();
             // setInterval(doSelect, 2000);
-            // setInterval(judgeMyTurn, 2000);
+            setInterval(judgeMyTurn, 2000);
         });
 
         async function getProfile() {
@@ -28,7 +30,6 @@
         }
 
         async function getGameid() {
-            var gameid = osql.getParam("gameid");
             document.getElementById('gameid').innerHTML = gameid;
             // ゲーム終了値を取得する
             var sql = `select * from Games where id = "${gameid}";`;
@@ -54,7 +55,7 @@
             var objects = await osql.connect(sql);
             console.log(objects)
             var ord = objects[0].ord;
-            var gameid = osql.getParam("gameid");
+            // var gameid = osql.getParam("gameid");
 
             var sql = `insert into Numbers (gameid, playerid, ord, number) values("${gameid}", "${playerid}", ${ord}, ${selectnum});`;
             var objects = await osql.connect(sql);
@@ -72,7 +73,7 @@
 
         // addturnとsumnumの追加処理
         async function addTurn() {
-            var gameid = osql.getParam("gameid");
+            // var gameid = osql.getParam("gameid");
             var sql = `select * from Games where id = ${gameid};`;
             var objects = await osql.connect(sql);
             console.log(objects[0].turn);
@@ -99,10 +100,10 @@
 
             document.getElementById("result").innerHTML = `現在の合計値は${sum_num}です。`;
 
-            judgeFinish(gameid, sum_num);
+            judgeFinish(sum_num);
         }
 
-        async function judgeFinish(gameid, sum_num) {
+        async function judgeFinish(sum_num) {
             var sql = `select * from Games where id = "${gameid}";`;
             var objects = await osql.connect(sql);
             var finishnum = Number(objects[0].finishnum);
@@ -136,7 +137,7 @@
         async function judgeMyTurn() {
             var me = await osql.getMe();
             var playerid = me.studentid;
-            var gameid = osql.getParam("gameid");
+            // var gameid = osql.getParam("gameid");
             // 自分のordをとる
             var sql = `select * from G_P where gameid = "${gameid}" and playerid = "${playerid}"`;
             var objects = await osql.connect(sql);
@@ -158,6 +159,15 @@
             var objects = await osql.connect(sql);
             var nowPlayer = objects[0].playerid;
 
+            // 現在の合計値を取得する
+            // sumnumのupdateをする
+            var sql = `select * from Games where id = "${gameid}";`;
+            var objects = await osql.connect(sql);
+            var now_sumnum = Number(objects[0].sumnum); // 今の合計値を取得する
+            console.log(now_sumnum);
+
+            document.getElementById("result").innerHTML = `現在の合計値は${now_sumnum}です。`;
+
             // ゲーム人数から割って計算
             if (myOrd == nowOrd) {
                 document.getElementById('ban').innerHTML = 'あなたの番です';
@@ -172,7 +182,7 @@
         }
 
         async function resetGame() {
-            var sql = `update Games set turn = 0 , sumnum = 0, finishnum = 10 where id = 1;`;
+            var sql = `update Games set turn = 0 , sumnum = 0, finishnum = 10 where id = ${gameid};`;
             var objects = await osql.connect(sql);
             location.href = 'usertop.html';
         }
