@@ -19,8 +19,12 @@
 
         async function getProfile() {
             var me = await osql.getMe();
+            var playerid = me.studentid;
             document.getElementById('user_name').innerHTML = me.fname;
-            console.log(me);
+            var sql = `select ord from G_P where playerid = "${playerid}";`;
+            var objects = await osql.connect(sql);
+            var ord = objects[0].ord;
+            document.getElementById("user_ord").innerHTML = ord;
         }
 
         async function getGameid() {
@@ -179,9 +183,12 @@
 
 <body>
     <h1>数あてゲーム</h1>
-    <p>ゲーム番号: <span id="gameid"></span> 終了値: <span id="end_num"></span></p>
-    ユーザ: <span id="user_name" type="textfield"></span>
-    <br>
+    <p>ゲーム番号: <span id="gameid"></span> 終了値: <span id="end_num"></span>
+        <br>
+        ユーザー: <span id="user_name" type="textfield"></span>
+        <br>
+        手番: <span id="user_ord" type="textfield"></span>
+    </p>
     <!-- 用語: <input id="word" type="textfield">
     <button onclick="submit()">送信</button> -->
     <select name="example3" size="3" id="selectnum">
