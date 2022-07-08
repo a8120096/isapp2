@@ -123,9 +123,9 @@
 
             // 現在の手番、その手番のユーザを取得
             var nowOrd = ((nowturn - 1) % playernum) + 1
-            var sql = `select playerid from G_P where ord = ${nowOrd} and gameid = "${gameid}"`;
+            var sql = `select * from G_P inner join Players on Players.playerid = G_P.playerid where ord = ${nowOrd} and gameid = "${gameid}"`;
             var objects = await osql.connect(sql);
-            var nowPlayer = objects[0].playerid;
+            var nowPlayer = objects[0].name;
 
             // 現在の合計値を取得する
             var sql = `select * from Games where id = "${gameid}";`;
