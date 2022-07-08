@@ -11,12 +11,11 @@
     <script>
         osql.requireLogin();
         var gameid = osql.getParam("gameid");
-
+        var judgeTimer;
         $().ready(function () {
             getProfile();
             getGameid();
-            // setInterval(doSelect, 2000);
-            setInterval(judgeMyTurn, 2000);
+            judgeTimer = setInterval(judgeMyTurn, 2000);
         });
 
         async function getProfile() {
@@ -73,7 +72,6 @@
 
         // addturnとsumnumの追加処理
         async function addTurn() {
-            // var gameid = osql.getParam("gameid");
             var sql = `select * from Games where id = ${gameid};`;
             var objects = await osql.connect(sql);
             console.log(objects[0].turn);
@@ -109,35 +107,14 @@
             var finishnum = Number(objects[0].finishnum);
             console.log(finishnum);
             if (sum_num >= finishnum) {
+                clearInterval(judgeTimer);
                 document.getElementById("game-end").innerHTML = "あなたは負け！！ぴえん";
             }
         }
 
-        // ぐるぐる回す判定
-
-        // 手番と今の合計値が出てればおけ
-
-        // async function doSelect() {
-        //     var sql = 'select * from Numbers order by time desc';
-        //     var objects = await osql.connect(sql);
-        //     // console.log(objects);
-        //     var html = '';
-        //     html = html + '<table border="1">';
-        //     for (var i = 0; i < objects.length; i++) {
-        //         var object = objects[i];
-        //         html = html + '<tr>';
-        //         html = html + '<td>' + object.playerid + '</td>';
-        //         html = html + '<td>' + object.content + '</td>';
-        //         html = html + '</tr>';
-        //     }
-        //     html = html + '</table>';
-        //     document.getElementById('result').innerHTML = html;
-        // }
-
         async function judgeMyTurn() {
             var me = await osql.getMe();
             var playerid = me.studentid;
-            // var gameid = osql.getParam("gameid");
             // 自分のordをとる
             var sql = `select * from G_P where gameid = "${gameid}" and playerid = "${playerid}"`;
             var objects = await osql.connect(sql);
@@ -160,7 +137,6 @@
             var nowPlayer = objects[0].playerid;
 
             // 現在の合計値を取得する
-            // sumnumのupdateをする
             var sql = `select * from Games where id = "${gameid}";`;
             var objects = await osql.connect(sql);
             var now_sumnum = Number(objects[0].sumnum); // 今の合計値を取得する
@@ -179,6 +155,17 @@
 
             // 現在のターンを表示
             document.getElementById('turn').innerHTML = `現在のターン: ${nowturn}`;
+
+            // ゲームが終了する時にボタンを消す
+            // ゲーム終了値を取得する
+            var sql = `select * from Games where id = "${gameid}";`;
+            var objects = await osql.connect(sql);
+            var finishnum = Number(objects[0].finishnum);
+            if (finishnum <= now_sumnum) {
+                // document.getElementById('submit_num').style.visibility = 'hidden';
+                clearInterval(judgeTimer);
+                document.getElementById("game-end").innerHTML = "あなたは勝ち！！";
+            }
         }
 
         async function resetGame() {
@@ -186,6 +173,7 @@
             var objects = await osql.connect(sql);
             location.href = 'usertop.html';
         }
+
 
     </script>
 
