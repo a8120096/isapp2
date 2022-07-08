@@ -158,11 +158,11 @@
             }
         }
 
-        async function resetGame() {
-            var sql = `update Games set turn = 0 , sumnum = 0, finishnum = 10 where id = ${gameid};`;
-            var objects = await osql.connect(sql);
-            location.href = 'usertop.html';
-        }
+        // async function resetGame() {
+        //     var sql = `update Games set turn = 0 , sumnum = 0, finishnum = 10 where id = ${gameid};`;
+        //     var objects = await osql.connect(sql);
+        //     location.href = 'usertop.html';
+        // }
 
 
     </script>
@@ -184,8 +184,8 @@
     </select>
 
     <input type="submit" id="submit_num" value="送信する" onclick="submit()">
-    <button onclick="resetGame()">リセット</button>
-    <button onclick="judgeMyTurn()">ターンジャッジ</button>
+    <!-- <button onclick="resetGame()">リセット</button>
+    <button onclick="judgeMyTurn()">ターンジャッジ</button> -->
 
     <hr>
     <p id="turn"></p>
