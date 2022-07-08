@@ -3,9 +3,11 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/osql.js"></script>
+    <link rel="stylesheet" href="style.css">
 
     <script>
         osql.requireLogin();
@@ -64,24 +66,31 @@
 </head>
 
 <body>
-    <h1>数取りゲーム</h1>
-    <h2>ユーザートップ</h2>
-    <div class="contents">
+    <div class="wrapper">
+        <h1>数取りゲーム</h1>
+        <h2>ユーザートップ</h2>
         <p id="user_name"></p>
         <hr>
-        <h4>ルール説明</h4>
-        <ol type="1">
-            <li>終了値を入力してルームを作成してください</li>
-            <li>ユーザーは自分のターンで1から3の数字を選択できます</li>
-            <li>ターンごとにユーザーが選択した数字を足していきます</li>
-            <li>その数字が終了値に達した時点でその人が負けになります</li>
-        </ol>
-        <hr>
-        終了値:<input id="finish_num" type="text"><button onclick="createGame()">ゲーム作成</button>
-        <button onclick="judgeGame()">ゲームが終わっているか</button>
-        <br>
-        <p id="result"></p>
-        <p id="show-game"></p>
+        <div class="contents">
+            <h4>ゲーム概要</h4>
+            <ul class="usertop-li">
+                <li>21を言った人が負けのゲームを模倣したシステムです。</li>
+                <li>このゲームでは自分で終了値を決めれます。</li>
+            </ul>
+            <h4>ルール説明</h4>
+            <ol type="1">
+                <li>終了値を入力してルームを作成してください</li>
+                <li>ユーザーは自分のターンで1から3の数字を選択できます</li>
+                <li>ターンごとにユーザーが選択した数字を足していきます</li>
+                <li>その数字が終了値に達した時点でその人が負けになります</li>
+            </ol>
+            <hr>
+            終了値:<input id="finish_num" type="text"><button onclick="createGame()">ゲーム作成</button>
+            <br>
+            <p id="result"></p>
+            <p id="show-game"></p>
+        </div>
+
     </div>
 </body>
 
