@@ -58,16 +58,6 @@
 
             var sql = `insert into Numbers (gameid, playerid, ord, number) values("${gameid}", "${playerid}", ${ord}, ${selectnum});`;
             var objects = await osql.connect(sql);
-
-            // if (objects.length <= 0) {
-            //     // G_Pにplayeridとplayernumを挿入
-            //     // G_Pのplayernumはordのこと
-            //     var sql = `insert into G_P values(${gameid}, "${playerid}", ${playernum});`;
-            //     var objects = await osql.connect(sql);
-
-            //     var sql = `update Games set playernum = "${playernum}" where id = ${gameid};`;
-            //     var objects = await osql.connect(sql);
-            // }
         }
 
         // addturnとsumnumの追加処理
@@ -162,7 +152,7 @@
             var objects = await osql.connect(sql);
             var finishnum = Number(objects[0].finishnum);
             if (finishnum <= now_sumnum) {
-                // document.getElementById('submit_num').style.visibility = 'hidden';
+                document.getElementById('submit_num').style.visibility = 'hidden';
                 clearInterval(judgeTimer);
                 document.getElementById("game-end").innerHTML = "あなたは勝ち！！";
             }
@@ -187,8 +177,6 @@
         <br>
         手番: <span id="user_ord" type="textfield"></span>
     </p>
-    <!-- 用語: <input id="word" type="textfield">
-    <button onclick="submit()">送信</button> -->
     <select name="example3" size="3" id="selectnum">
         <option value="1">1を選択</option>
         <option value="2">2を選択</option>
@@ -202,8 +190,8 @@
     <hr>
     <p id="turn"></p>
     <p id="ban"></p>
-    <p id="game-end"></p>
     <p id="result"></p>
+    <p id="game-end"></p>
 </body>
 
 </html>
