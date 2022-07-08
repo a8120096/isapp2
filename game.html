@@ -173,30 +173,32 @@
 </head>
 
 <body>
-    <h1>数取りゲーム</h1>
-    <div class="contents">
-        <p id="user_name"></p>
-        <p>
-            ゲーム番号: <span id="gameid"></span><br>
-            終了値: <span id="end_num"></span><br>
-            <!-- ユーザー: <span id="user_name"></span><br> -->
-            手番: <span id="user_ord" type="textfield"></span>
-        </p>
-        <select name="example3" size="3" id="selectnum">
-            <option value="1">1を選択</option>
-            <option value="2">2を選択</option>
-            <option value="3">3を選択</option>
-        </select>
+    <div class="wrapper">
+        <h1>数取りゲーム</h1>
+        <div class="contents">
+            <p id="user_name"></p>
+            <p>
+                ゲーム番号: <span id="gameid"></span><br>
+                終了値: <span id="end_num"></span><br>
+                <!-- ユーザー: <span id="user_name"></span><br> -->
+                手番: <span id="user_ord" type="textfield"></span>
+            </p>
+            <select name="example3" size="3" id="selectnum">
+                <option value="1">1を選択</option>
+                <option value="2">2を選択</option>
+                <option value="3">3を選択</option>
+            </select>
 
-        <input type="submit" id="submit_num" value="送信する" onclick="submit()">
-        <!-- <button onclick="resetGame()">リセット</button>
-            <button onclick="judgeMyTurn()">ターンジャッジ</button> -->
+            <input type="submit" id="submit_num" value="送信する" onclick="submit()">
+            <!-- <button onclick="resetGame()">リセット</button>
+                <button onclick="judgeMyTurn()">ターンジャッジ</button> -->
 
-        <hr>
-        <p id="turn"></p>
-        <p id="ban"></p>
-        <p id="result"></p>
-        <p id="game-end"></p>
+            <hr>
+            <p id="turn"></p>
+            <p id="ban"></p>
+            <p id="result"></p>
+            <p id="game-end"></p>
+        </div>
     </div>
 </body>
 
