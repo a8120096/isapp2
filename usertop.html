@@ -17,7 +17,7 @@
 
         async function getProfile() {
             var me = await osql.getMe();
-            document.getElementById('user_name').innerHTML = me.fname;
+            document.getElementById('user_name').innerHTML = `ようこそ ${me.fname} さん`;
             console.log(me);
         }
 
@@ -36,7 +36,7 @@
             var objects = await osql.connect(sql);
             console.log(objects);
             var html = '';
-            html = html + '<table border="1">';
+            html = html + '<table border="1" style="border-collapse: collapse;">';
             for (var i = 0; i < objects.length; i++) {
                 var object = objects[i];
                 html = html + '<tr>';
@@ -65,7 +65,7 @@
     <p id="welcome"></p>
     <p id="user_name"></p>
     <hr>
-    <input id="finish_num" type="text">終了数値を入力して、create gameボタンを押してください。
+    <input id="finish_num" type="text">ゲームの終了数値を入力して、create gameボタンを押してください。
     <br>
     <button onclick="createGame()">create game</button>
     <br>
