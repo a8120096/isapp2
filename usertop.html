@@ -29,7 +29,7 @@
         }
 
         async function showGame() {
-            var sql = `select id from Games;`;
+            var sql = `select * from Games;`;
 
             var objects = await osql.connect(sql);
             console.log(objects);
@@ -39,7 +39,12 @@
                 var object = objects[i];
                 html = html + '<tr>';
                 html = html + '<td>' + object.id + '</td>';
-                html = html + '<td><a href="waiting.html?gameid=' + object.id + '"><button id="btn"' + object.id + '" >入室</button></a></td>';
+                if (object.finishnum <= object.sumnum) {
+                    html = html + '<td><a href="waiting.html?gameid=' + object.id + '"><button id="btn' + object.id + '" disabled>入室</button></a></td>';
+                }
+                else {
+                    html = html + '<td><a href="waiting.html?gameid=' + object.id + '"><button id="btn' + object.id + '">入室</button></a></td>';
+                }
                 var sql2 = `select * from Games inner join G_P on G_P.gameid = Games.id inner join Players on Players.playerid = G_P.playerid where id = ${object.id};`;
                 var objects2 = await osql.connect(sql2);
 
@@ -52,22 +57,6 @@
             }
             html = html + '</table>';
             document.getElementById('result').innerHTML = html;
-        }
-
-        async function judgeGame() {
-            var sql = `select * from Games;`;
-            var objects = await osql.connect(sql);
-            console.log(objects);
-
-            for (var i = 0; i < objects.length; i++) {
-                var object = objects[i];
-                if (object.finishnum > object.sumnum) {
-                    document.getElementById(`btn${object.id}`).disabled = false;
-                }
-                else if (object.finishnum <= object.sumnum) {
-                    document.getElementById(`btn${object.id}`).disabled = true;
-                }
-            }
         }
     </script>
 
