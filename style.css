@@ -1,4 +1,4 @@
-/* 共通CSS */
+/* 共通CSSCSS */
 .usertop-li {
     list-style: none;
     padding-left: 20px;
@@ -16,6 +16,15 @@ p {
 table {
     width: 80%;
     margin: 0 auto;
+}
+
+#backhome {
+    color: #000;
+    text-decoration: none;
+}
+
+#selectnum {
+    font-size: 20px;
 }
 
 /* パソコン用CSS */
