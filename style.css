@@ -34,7 +34,30 @@ table {
     font-size: 20px;
 }
 
+<<<<<<< HEAD
 .pright {
     float: right;
     bottom: 0px;
+=======
+#end_num {
+    color: red;
+}
+
+/* パソコン用CSS */
+@media screen and (min-width:480px) {
+ 
+	p {
+        color: #000;
+    }
+ 
+}
+
+/* スマホ用CSS */
+@media screen and (max-width:480px) {
+ 
+	p {
+        color: #000;
+    }
+ 
+>>>>>>> 0be147b5c4bb8a44d4bd9da00399aab0bf77dd8a
 }
