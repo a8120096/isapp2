@@ -3,16 +3,22 @@
     list-style: none;
     padding-left: 20px;
 }
+
 .wrapper {
     width: 80%;
     margin: 0 auto;
 }
-h1, h2, #user_name {
+
+h1,
+h2,
+#user_name {
     text-align: center;
 }
+
 p {
     font-size: 20px;
 }
+
 table {
     width: 80%;
     margin: 0 auto;
@@ -21,26 +27,14 @@ table {
 #backhome {
     color: #000;
     text-decoration: none;
+    margin-right: 0px;
 }
 
 #selectnum {
     font-size: 20px;
 }
 
-/* パソコン用CSS */
-@media screen and (min-width:480px) {
- 
-	p {
-        color: #000;
-    }
- 
-}
-
-/* スマホ用CSS */
-@media screen and (max-width:480px) {
- 
-	p {
-        color: #000;
-    }
- 
+.pright {
+    float: right;
+    bottom: 0px;
 }
