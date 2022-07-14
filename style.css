@@ -42,3 +42,18 @@ table {
     float: right;
     bottom: 0px;
 }
+
+@media screen and (max-width: 480px) {
+    .wrapper {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    p {
+        font-size: 18px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+}
