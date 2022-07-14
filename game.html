@@ -27,7 +27,7 @@
             var playerid = me.studentid;
             // document.getElementById('user_name').innerHTML = me.fname;
             document.getElementById('user_name').innerHTML = `ようこそ ${me.fname} さん`;
-            var sql = `select ord from G_P where playerid = "${playerid}";`;
+            var sql = `select * from G_P where playerid = "${playerid}";`;
             var objects = await osql.connect(sql);
             var ord = objects[0].ord;
             document.getElementById("user_ord").innerHTML = ord;
