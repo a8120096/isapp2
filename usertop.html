@@ -40,9 +40,9 @@
             console.log(objects);
             var html = '';
             html = html + '<table border="1" style="border-collapse: collapse;">';
+            html = html + '<tr><td>ルーム</td><td>作成者</td><td>入室</td><td>メンバー</td></tr>';
             for (var i = 0; i < objects.length; i++) {
                 var object = objects[i];
-                html = html + '<tr><td>ルーム</td><td>作成者</td><td>入室</td><td>メンバー</td></tr>';
                 html = html + '<tr>';
                 html = html + '<td>' + object.id + '</td>';
                 html = html + '<td>' + object.creater + '</td>';
