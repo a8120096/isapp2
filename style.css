@@ -54,8 +54,7 @@ table {
     }
 
     h1,
-    h2,
-    #user_name {
+    h2 {
         font-size: 20px;
     }
 
