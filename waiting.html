@@ -59,7 +59,7 @@
             var sql = `select * from G_P inner join Players on Players.playerid = G_P.playerid where gameid = "${gameid}";`;
             var objects = await osql.connect(sql);
             var html = '';
-            html = html + '<table border="1">';
+            html = html + '<table border="1" style="border-collapse: collapse;">';
             html = html + '<tr>';
             html = html + '<td>メンバー</td>';
             html = html + '<td>手番</td>';
