@@ -23,14 +23,16 @@
         }
 
         async function createGame() {
+            var me = await osql.getMe();
             var finishnum = document.getElementById('finish_num').value;
             console.log(finishnum);
-            var sql = `insert into Games (turn, finishnum, playernum, sumnum) values(0, ${finishnum}, 0, 0);`;
+            var sql = `insert into Games (turn, finishnum, playernum, sumnum, creater) values(0, ${finishnum}, 0, 0, "${me.fname}");`;
             var objects = await osql.connect(sql);
             showGame();
         }
 
         async function showGame() {
+            var me = await osql.getMe();
             var sql = `select * from Games;`;
 
             var objects = await osql.connect(sql);
@@ -39,8 +41,10 @@
             html = html + '<table border="1" style="border-collapse: collapse;">';
             for (var i = 0; i < objects.length; i++) {
                 var object = objects[i];
+                html = html + '<tr><td>ゲームID</td><td>作成者</td><td>入室</td><td>メンバー</td></tr>';
                 html = html + '<tr>';
                 html = html + '<td>' + object.id + '</td>';
+                html = html + '<td>' + object.creater + '</td>';
                 if (object.finishnum <= object.sumnum) {
                     html = html + '<td><a href="waiting.html?gameid=' + object.id + '"><button id="btn' + object.id + '" disabled>入室</button></a></td>';
                 }
